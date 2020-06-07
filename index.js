@@ -12,3 +12,29 @@ I need this code, but don't know where, perhaps should make some middleware, don
 
 Go code!
 */
+
+let express = require('express');
+let actionRoutes = require('./routes/actionRoutes.js')
+let projectRoutes = require('./routes/projectRoutes.js');
+
+// require("dotenv").config();
+
+// Server START
+let server = express();
+
+// MIDDLEWARE
+server.use(express.json());
+
+// ENDPOINTS
+server.use('/api/actions', actionRoutes);
+server.use('/api/projects', projectRoutes);
+
+// Base GET at /
+server.get('/', (req, res) => {
+    res.status(200).json({api: "UP"})
+})
+
+let PORT = 1123;
+server.listen(PORT, () => {
+    console.log(`Running at port ${PORT}`);
+})
