@@ -64,7 +64,7 @@ router.post('/', (req, res) => {
 })
 
 // ==================================================================== PUT ===========
-
+// Implemented ID validation here as well
 router.put('/:id',validateId, (req, res) => {
     let id = req.params.id;
     let updatedAction = req.body;
@@ -95,6 +95,23 @@ router.put('/:id',validateId, (req, res) => {
     // .catch(err => {
     //     res.status(400).json({ message: "Improper ID"})
     // })
+})
+
+// ================================================================= DELETE ===========
+
+router.delete('/:id', validateId, (req, res) => {
+    let id = req.params.id;
+    actions.remove(id)
+    .then(removed => {
+        if(removed > 0) {
+            res.status(200).json({ message: `Removed action connected to id ${id}`})
+        } else {
+            res.status(400).json({ message: "Could not remove action"})
+        }
+    })
+    .catch(err => {
+        res.status(500).json({ error: "Could not process your remove request"})
+    })
 })
 
 module.exports = router;
